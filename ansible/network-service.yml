@@ -1,0 +1,16 @@
+---
+- name: Manage NexusHA Network Service
+  hosts: local
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: Ensure NexusHA network service is enabled and started
+      ansible.builtin.systemd:
+       name: nexusha-network.service
+       enabled: true
+       state: started
+
+    - name: Display network automation status
+      ansible.builtin.debug:
+        msg: "NexusHA network service is enabled and running."
