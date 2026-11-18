@@ -1,0 +1,21 @@
+---
+- name: NexusHA System Check
+  hosts: local
+  gather_facts: yes
+
+  tasks:
+    - name: Display server hostname
+      ansible.builtin.debug:
+        msg: "NexusHA Server: {{ ansible_hostname }}"
+
+    - name: Display operating system
+      ansible.builtin.debug:
+        msg: "Operating System: {{ ansible_distribution }} {{ ansible_distribution_version }}"
+
+    - name: Display available memory
+      ansible.builtin.debug:
+        msg: "Total RAM: {{ ansible_memtotal_mb }} MB"
+
+    - name: Display CPU information
+      ansible.builtin.debug:
+        msg: "Virtual CPUs: {{ ansible_processor_vcpus }}"
