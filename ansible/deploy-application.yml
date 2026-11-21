@@ -1,0 +1,41 @@
+---
+- name: NexusHA Automated Application Deployment
+  hosts: local
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: Deploy Nginx application
+      ansible.builtin.command:
+        argv:
+          - k3s
+          - kubectl
+          - apply
+          - -f
+          - /home/aiza-fatima/NexusHA/kubernetes/nginx-deployment.yaml
+
+    - name: Configure Nginx service
+      ansible.builtin.command:
+        argv:
+          - k3s
+          - kubectl
+          - apply
+          - -f
+          - /home/aiza-fatima/NexusHA/kubernetes/nginx-service.yaml
+
+    - name: wait for Nginx deployment
+      ansible.builtin.command:
+        argv:
+          - k3s
+          - kubectl
+          - rollout
+          - status
+          - deployment/nginx
+          - -n
+          - nexusha
+          - --timeout=120s
+      changed_when: false
+
+    - name: Display deployment success
+      ansible.builtin.debug:
+        msg: "NexusHA Nginx application deployed successfully through Ansible."
